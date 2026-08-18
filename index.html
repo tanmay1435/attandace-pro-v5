@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070910"><meta name="description" content="Attandace Pro V5 — premium college attendance manager">
+<link rel="manifest" href="manifest.json"><link rel="icon" href="icon.svg"><link rel="stylesheet" href="styles.css">
+<title>Attandace Pro V5</title>
+</head>
+<body>
+<div id="app">
+<header class="top">
+  <div class="brand"><div class="logo">A</div><div><b>Attandace Pro</b><small>V5 • Smart college tracker</small></div></div>
+  <div class="top-actions"><button class="icon" id="notifyBtn" title="Notifications">♢</button><button class="icon" id="themeBtn" title="Theme">☼</button></div>
+</header>
+
+<main>
+<section id="home" class="page active">
+  <div class="welcome"><div><span class="eyebrow">OVERVIEW</span><h1 id="hello">Hello 👋</h1><p id="todayText"></p></div><button class="primary" data-page="mark">Mark today</button></div>
+  <div class="hero">
+    <div><span class="eyebrow">OVERALL ATTENDANCE</span><div class="big" id="overall">0%</div><div id="overallBadge" class="badge">Add subjects</div><p id="overallHint">Your smart attendance overview appears here.</p></div>
+    <div class="gauge" id="gauge"><div><b id="gaugePct">0%</b><small>overall</small></div></div>
+  </div>
+  <div class="stats"><div><small>Present</small><b id="present">0</b></div><div><small>Absent</small><b id="absent">0</b></div><div><small>Total</small><b id="total">0</b></div><div><small>Streak</small><b id="streak">0</b></div></div>
+  <div id="alert" class="alert hidden"></div>
+  <div class="section"><div class="section-title"><h2>Today</h2><button class="link" data-page="mark">View all</button></div><div id="todayCards" class="grid"></div></div>
+  <div class="section"><div class="section-title"><h2>Needs attention</h2><button class="link" data-page="subjects">Subjects</button></div><div id="attentionCards" class="grid"></div></div>
+  <div class="quick"><button data-page="mark">✓ Mark attendance</button><button data-page="calendar">▣ Add holiday</button><button data-page="planner">⌁ Smart planner</button><button data-page="stats">↗ Analytics</button></div>
+</section>
+
+<section id="subjects" class="page">
+ <div class="head"><div><span class="eyebrow">ACADEMICS</span><h1>Subjects</h1><p>Set individual minimums and track every class.</p></div><button class="primary small" id="addSubject">＋ Add</button></div>
+ <div id="subjectsList" class="grid"></div>
+</section>
+
+<section id="mark" class="page">
+ <div class="head"><div><span class="eyebrow">DAILY RECORD</span><h1>Mark attendance</h1><p>Holidays are automatically excluded.</p></div><input class="date" id="markDate" type="date"></div>
+ <div id="holidayBanner"></div><div id="markList" class="grid"></div>
+</section>
+
+<section id="timetable" class="page">
+ <div class="head"><div><span class="eyebrow">SCHEDULE</span><h1>Timetable</h1><p>Build your weekly class routine.</p></div><button class="primary small" id="addClass">＋ Class</button></div>
+ <div class="days" id="days"></div><div id="scheduleList" class="grid"></div>
+</section>
+
+<section id="calendar" class="page">
+ <div class="head"><div><span class="eyebrow">CALENDAR</span><h1>Holidays</h1><p>Full and half days never count as attendance.</p></div><button class="primary small" id="addHoliday">＋ Holiday</button></div>
+ <div class="calendarHero"><div><b id="nextHoliday">No upcoming holiday</b><small id="nextHolidaySub">Add your college holidays below.</small></div><span>🏖️</span></div>
+ <div id="holidayList" class="grid"></div>
+</section>
+
+<section id="history" class="page">
+ <div class="head"><div><span class="eyebrow">RECORDS</span><h1>History</h1><p>Every marked class, grouped by date.</p></div><button class="secondary small" id="clearHistory">Clear</button></div>
+ <div id="historyList" class="history"></div>
+</section>
+
+<section id="stats" class="page">
+ <div class="head"><div><span class="eyebrow">INSIGHTS</span><h1>Analytics</h1><p>See where your attendance stands.</p></div></div>
+ <div class="insightGrid"><div class="metric"><small>Best subject</small><b id="bestSubject">—</b></div><div class="metric"><small>Needs most attention</small><b id="worstSubject">—</b></div><div class="metric"><small>Classes this month</small><b id="monthClasses">0</b></div><div class="metric"><small>Attendance goal</small><b id="goalText">75%</b></div></div>
+ <div class="chartCard"><h3>Subject performance</h3><div id="bars"></div></div>
+</section>
+
+<section id="planner" class="page">
+ <div class="head"><div><span class="eyebrow">SMART TOOLS</span><h1>Planner</h1><p>Know the consequence before you skip.</p></div></div>
+ <div class="tool"><h3>Can I miss the next class?</h3><select id="missSubject"></select><div id="missResult" class="result">Choose a subject.</div></div>
+ <div class="tool"><h3>How many classes to reach my minimum?</h3><select id="recoverSubject"></select><div id="recoverResult" class="result">Choose a subject.</div></div>
+ <div class="tool"><h3>Safe absence margin</h3><select id="marginSubject"></select><div id="marginResult" class="result">Choose a subject.</div></div>
+</section>
+
+<section id="settings" class="page">
+ <div class="head"><div><span class="eyebrow">PREFERENCES</span><h1>Settings</h1><p>Personalize your attendance system.</p></div></div>
+ <div class="settings">
+  <label>Your name<input id="studentName" placeholder="Tanmay"></label>
+  <label>Default minimum attendance %<input id="minPct" type="number" min="1" max="100" step=".5"></label>
+  <label>Semester<input id="semester" placeholder="Semester 5"></label>
+  <button class="secondary" id="export">Export backup</button><label class="fileBtn">Import backup<input id="import" type="file" accept=".json" hidden></label>
+  <button class="secondary" id="demo">Load sample data</button><button class="danger" id="reset">Reset everything</button>
+  <div class="developer">Developed By: Tanmay Pise</div>
+ </div>
+</section>
+</main>
+
+<nav class="nav">
+ <button data-page="home" class="active"><span>⌂</span>Home</button><button data-page="subjects"><span>▦</span>Subjects</button><button data-page="mark"><span>✓</span>Mark</button><button data-page="timetable"><span>◫</span>Schedule</button><button data-page="calendar"><span>▣</span>Holidays</button><button data-page="planner"><span>⌁</span>Planner</button><button data-page="stats"><span>↗</span>Stats</button><button data-page="settings"><span>⚙</span>More</button>
+</nav>
+</div>
+
+<div class="modal hidden" id="modal"><div class="modalbox"><div class="modalhead"><h2 id="modalTitle"></h2><button class="icon" id="close">×</button></div><form id="form"></form></div></div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body></html>
