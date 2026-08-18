@@ -1,0 +1,73 @@
+name: Build Attandace Pro V5 APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Create Capacitor configuration
+        run: |
+          cat > package.json <<'EOF'
+          {
+            "name": "attandace-pro-v5",
+            "version": "5.0.0",
+            "private": true,
+            "dependencies": {
+              "@capacitor/core": "latest",
+              "@capacitor/android": "latest"
+            },
+            "devDependencies": {
+              "@capacitor/cli": "latest"
+            }
+          }
+          EOF
+
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.tanmay.attandacepro",
+            "appName": "Attandace Pro",
+            "webDir": ".",
+            "server": {
+              "androidScheme": "https"
+            }
+          }
+          EOF
+
+      - name: Install Capacitor
+        run: npm install
+
+      - name: Create Android project
+        run: npx cap add android
+
+      - name: Copy V5 app into Android
+        run: npx cap sync android
+
+      - name: Build APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: Attandace-Pro-V5-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
