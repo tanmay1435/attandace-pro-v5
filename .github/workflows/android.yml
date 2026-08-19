@@ -1,15 +1,13 @@
-name: Build Attandace Pro V5 APK
+name: Build Attandace Pro V10 APK
 
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout project
         uses: actions/checkout@v4
@@ -28,19 +26,14 @@ jobs:
       - name: Prepare web files
         run: |
           mkdir -p www
-          cp index.html www/
-          cp app.js www/
-          cp styles.css www/
-          cp manifest.json www/
-          cp sw.js www/
-          cp icon.svg www/
+          cp index.html app.js styles.css manifest.json sw.js icon.svg www/
 
       - name: Create package.json
         run: |
           cat > package.json <<'EOF'
           {
-            "name": "attandace-pro-v5",
-            "version": "5.0.0",
+            "name": "attandace-pro-v10",
+            "version": "10.0.0",
             "private": true,
             "dependencies": {
               "@capacitor/core": "7.4.3",
@@ -57,7 +50,7 @@ jobs:
           cat > capacitor.config.json <<'EOF'
           {
             "appId": "com.tanmay.attandacepro",
-            "appName": "Attandace Pro",
+            "appName": "Attandace Pro V10",
             "webDir": "www"
           }
           EOF
@@ -68,16 +61,16 @@ jobs:
       - name: Create Android project
         run: npx cap add android
 
-      - name: Sync V5 app
+      - name: Sync V10 app
         run: npx cap sync android
 
-      - name: Build APK
+      - name: Build debug APK
         working-directory: android
         run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Attandace-Pro-V5-APK
+          name: Attandace-Pro-V10-APK
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
