@@ -1,1 +1,10 @@
-{"name":"Attandace Pro V5","short_name":"Attandace Pro","start_url":".","display":"standalone","background_color":"#070910","theme_color":"#070910","description":"Premium smart college attendance tracker","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}
+{
+  "name":"Attandace Pro V10",
+  "short_name":"Attandace Pro",
+  "start_url":".",
+  "display":"standalone",
+  "background_color":"#070910",
+  "theme_color":"#0a0d14",
+  "description":"Smart college attendance and timetable manager",
+  "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml"}]
+}
